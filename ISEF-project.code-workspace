@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "API"
+		},
+		{
+			"path": "client"
+		},
+		{
+			"path": "DOCS"
+		}
+	],
+	"settings": {}
+}
