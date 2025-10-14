@@ -1,0 +1,48 @@
+RandomCode.md
+# Node.js
+node_modules/
+**/node_modules/
+
+# Next.js
+.next/
+**/.next/
+
+# Build output
+out/
+dist/
+
+# macOS
+.DS_Store
+
+# Python
+.env
+.venv
+venv/
+ENV/
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Rust
+/target/
+**/target/
+
+# Rust build artifacts
+/API/rust_lib/target/
+/API/rust_lib/*.rs.bk
+/API/rust_lib/*.swp
+/API/rust_lib/*.swo
+/API/rust_lib/*.tmp
+/API/rust_lib/*.bak
+/API/rust_lib/*.old
+/API/rust_lib/.idea/
+/API/rust_lib/.vscode/
+
+# Logs
+*.log
+
+# Editor folders
+.idea/
+.vscode/

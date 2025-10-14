@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+:root {
+  /* Color Palette */
+  --primary-blue-600: #2563eb;
+  --primary-green-600: #16a34a;
+  --primary-blue-700: #1d4ed8;
+  --primary-green-700: #15803d;
+  --primary-blue-500: #3b82f6;
+  --primary-green-500: #22c55e;
+  --secondary-orange-500: #f97316;
+  --secondary-red-500: #ef4444;
+  --secondary-purple-500: #a855f7;
+  --secondary-teal-500: #14b8a6;
+  --neutral-gray-100: #f3f4f6;
+  --neutral-gray-600: #4b5563;
+  --neutral-white: #ffffff;
+  --neutral-black: #000000;
+
+  /* Gradients */
+  --gradient-blue-teal: linear-gradient(to right, #2563eb, #16a34a);
+  --gradient-blue-green: linear-gradient(to right, #3b82f6, #22c55e);
+  --gradient-dark-blue-green: linear-gradient(to right, #1d4ed8, #15803d);
+  --gradient-orange-red: linear-gradient(to right, #f97316, #ef4444);
+  --gradient-purple-blue: linear-gradient(to right, #a855f7, #3b82f6);
+  --gradient-teal-blue: linear-gradient(to right, #14b8a6, #3b82f6);
+  --gradient-light-blue-green: linear-gradient(to bottom right, #eff6ff, #ffffff, #f0fdf4);
+  --gradient-subtle-blue: linear-gradient(to bottom right, #dbeafe, #ffffff, #e5e7eb);
+
+  /* Typography */
+  --font-primary: Inter, system-ui, sans-serif;
+  --font-secondary: ui-sans-serif, system-ui, sans-serif;
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
+  --font-base: 1rem;
+  --font-lg: 1.125rem;
+  --font-xl: 1.25rem;
+  --font-2xl: 1.5rem;
+  --font-3xl: 1.875rem;
+  --font-4xl: 2.25rem;
+  --font-5xl: 3rem;
+  --font-6xl: 3.75rem;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --line-tight: 1.25;
+  --line-normal: 1.5;
+  --line-relaxed: 1.75;
+
+  /* Spacing */
+  --space-0: 0px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* Border Radius */
+  --radius-none: 0px;
+  --radius-sm: 0.125rem;
+  --radius-base: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+html {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--gradient-light-blue-green);
+  color: var(--neutral-black);
+  font-family: var(--font-primary);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* Hide horizontal scrollbar and make vertical scrollbar thin */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
