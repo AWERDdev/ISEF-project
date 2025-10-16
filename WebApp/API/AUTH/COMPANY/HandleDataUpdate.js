@@ -7,30 +7,39 @@ const rust = require('../../rust_lib/pkg/rust_lib.js');
 router.post('/Update', async (req, res) => {
   try {
     console.log('Received company update request:', req.body);
-    const { companyId, CompanyName, CompanyType, AdministratorName, email, phone, password, MedicalLicense, businessAddress } = req.body;
-    if (!companyId || !CompanyName || !CompanyType || !AdministratorName || !email || !phone || !password || !MedicalLicense || !businessAddress) {
-      console.log('Missing fields:', { companyId, CompanyName, CompanyType, AdministratorName, email, phone, password, MedicalLicense, businessAddress });
+    const { companyId, companyName, companyType, AdministratorName, companyEmail, phone, password, MedicalLicense, businessAddress } = req.body;
+    
+    if (!companyId || !companyName || !companyType || !AdministratorName || !companyEmail || !phone || !password || !MedicalLicense || !businessAddress) {
+      console.log('Missing fields:', { companyId, companyName, companyType, AdministratorName, companyEmail, phone, password, MedicalLicense, businessAddress });
       return res.status(400).json({ success: false, message: 'All fields are required.' });
     }
-    const company = await Company.findById(companyId);
+
+    // Use COMPID field to find the company
+    const company = await Company.findOne({ COMPID: companyId });
     console.log('Company found:', company);
-    if (!company) return res.status(404).json({ success: false, message: 'Company not found' });
+    
+    if (!company) {
+      return res.status(404).json({ success: false, message: 'Company not found' });
+    }
 
     let changed = false;
-    if (company.CompanyName !== CompanyName) {
-      company.CompanyName = CompanyName;
+    
+    // Match schema field names (capital C for CompanyName and CompanyType)
+    if (company.CompanyName !== companyName) {
+      company.CompanyName = companyName;
       changed = true;
     }
-    if (company.CompanyType !== CompanyType) {
-      company.CompanyType = CompanyType;
+    if (company.CompanyType !== companyType) {
+      company.CompanyType = companyType;
       changed = true;
     }
     if (company.AdministratorName !== AdministratorName) {
       company.AdministratorName = AdministratorName;
       changed = true;
     }
-    if (company.email !== email) {
-      company.email = email;
+    // Schema uses 'email' not 'companyEmail'
+    if (company.email !== companyEmail) {
+      company.email = companyEmail;
       changed = true;
     }
     if (company.phone !== phone) {
@@ -41,11 +50,20 @@ router.post('/Update', async (req, res) => {
       company.MedicalLicense = MedicalLicense;
       changed = true;
     }
-    // Convert businessAddress string to object { full: businessAddress }
-    if (!company.address || company.address.full !== businessAddress) {
-      company.address = { full: businessAddress };
+    
+    // Update address structure to match schema
+    if (!company.address || 
+        company.address.street !== businessAddress) {
+      company.address = {
+        street: businessAddress,
+        city: '',
+        state: '',
+        zipCode: '',
+        country: ''
+      };
       changed = true;
     }
+
     // Use Rust WASM for password validation and hashing
     let passwordMatch = false;
     try {
@@ -62,6 +80,7 @@ router.post('/Update', async (req, res) => {
       console.error('Password verification error:', error);
       return res.status(500).json({ success: false, message: "Error verifying password: " + error });
     }
+
     if (!passwordMatch) {
       try {
         let hashedPassword;
@@ -81,10 +100,12 @@ router.post('/Update', async (req, res) => {
         return res.status(500).json({ success: false, message: "Password hashing failed: " + error });
       }
     }
+
     if (!changed) {
       console.log('No changes detected.');
       return res.status(200).json({ success: false, message: 'No changes detected.' });
     }
+
     await company.save();
     console.log('Company updated:', company);
     res.json({ success: true, company });

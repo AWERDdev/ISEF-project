@@ -8,15 +8,13 @@ router.get('/',(req,res)=>{
     res.json({ message: "this is login route" })
 })
 
-
 router.post('/login', async (req, res) => {
     try {
-        
         const { companyEmail, password } = req.body
         console.log('Login attempt for:', companyEmail)
 
-        // Find user by email
-        const COMP = await COMPschema.findOne({ email:companyEmail })
+        // Find company by email
+        const COMP = await COMPschema.findOne({ email: companyEmail })
         if (!COMP) {
             return res.status(401).json({
                 success: false,
@@ -24,28 +22,30 @@ router.post('/login', async (req, res) => {
             })
         }
 
+        console.log('Company found:', {
+            COMPID: COMP.COMPID,
+            CompanyName: COMP.CompanyName,
+            email: COMP.email
+        })
+
         // Verify password using Rust
         try {
+            let isValidPassword = false;
             if (typeof rust.verify_password_wasm === "function") {
-                const isValidPassword = await rust.verify_password_wasm(password, COMP.password);
+                isValidPassword = await rust.verify_password_wasm(password, COMP.password);
                 console.log("Password verified (top-level)");
-                if (!isValidPassword) {
-                    return res.status(401).json({
-                        success: false,
-                        message: "Invalid email or password"
-                    })
-                }
             } else if (typeof rust.default?.verify_password_wasm === "function") {
-                const isValidPassword = await rust.default.verify_password_wasm(password, COMP.password);
+                isValidPassword = await rust.default.verify_password_wasm(password, COMP.password);
                 console.log("Password verified (default)");
-                if (!isValidPassword) {
-                    return res.status(401).json({
-                        success: false,
-                        message: "Invalid email or password"
-                    })
-                }
             } else {
                 throw new Error("verify_password_wasm not found in WASM module");
+            }
+
+            if (!isValidPassword) {
+                return res.status(401).json({
+                    success: false,
+                    message: "Invalid email or password"
+                })
             }
         } catch (error) {
             console.error('Password verification error:', error)
@@ -67,15 +67,27 @@ router.post('/login', async (req, res) => {
             } else {
                 throw new Error("create_token_wasm not found in WASM module");
             }
-            res.status(200).json({
+
+            // Return company data with field names matching the schema
+            const responseData = {
                 success: true,
                 token,
-                user: {
-                    id: COMP._id,
-                    name: COMP.AdministratorName,
-                    email: COMP.email
+                COMP: {
+                    COMPID: COMP.COMPID,           // Custom ID field from schema
+                    _id: COMP._id,                  // MongoDB ID
+                    CompanyName: COMP.CompanyName,  // Capital C
+                    CompanyType: COMP.CompanyType,  // Capital C
+                    email: COMP.email,              // lowercase from schema
+                    phone: COMP.phone,
+                    AdministratorName: COMP.AdministratorName,
+                    MedicalLicense: COMP.MedicalLicense,
+                    role: COMP.role
                 }
-            })
+            }
+
+            console.log('Sending response:', responseData)
+            res.status(200).json(responseData)
+
         } catch (error) {
             console.error('Token creation error:', error)
             return res.status(500).json({
@@ -86,8 +98,11 @@ router.post('/login', async (req, res) => {
 
     } catch (error) {
         console.error('Login error:', error)
-        
-        }
+        res.status(500).json({
+            success: false,
+            message: "Server error during login"
+        })
+    }
 })
 
 module.exports = router

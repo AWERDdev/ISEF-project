@@ -89,7 +89,7 @@ import { ROUTES } from "@/Types/Routes";
 
   useEffect(() => {
     handleFunctions();
-  });
+  },[]);
 
   const handleMedicineClick = (medicineId: string) => {
     router.push(`/medicine/${medicineId}`);

@@ -28,30 +28,40 @@ const UserDataUpdatePage: React.FC = () => {
       setLoading(false);
       return;
     }
+
     try {
       console.log("Sending request with data:", { userId, ...form });
       const res = await fetch("http://localhost:3500/apiAUTH/user/Update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, ...form })
+        body: JSON.stringify({ userId, ...form }),
       });
-      console.log("Response status:", res.status);
-      console.log("Response headers:", res.headers);
+
       const data = await res.json();
       console.log("Response data:", data);
+
       if (data.success) {
+        // ✅ Update localStorage with latest values
+        if (data.updatedUser) {
+          localStorage.setItem("USERname", data.updatedUser.name || form.name);
+          localStorage.setItem("USERemail", data.updatedUser.email || form.email);
+          localStorage.setItem("USERtoken", data.token || localStorage.getItem("USERtoken") || "");
+          localStorage.setItem("USERID", data.updatedUser.id || userId);
+        } else {
+          // fallback if backend doesn’t return updatedUser
+          localStorage.setItem("USERname", form.name);
+          localStorage.setItem("USERemail", form.email);
+        }
+
         setMessage("User data updated successfully.");
       } else {
         setMessage(data.message || "Failed to update user data.");
       }
     } catch (error: unknown) {
       console.error("Detailed error:", error);
-      if (error instanceof Error) {
-        console.error("Error name:", error.name);
-        console.error("Error message:", error.message);
-      }
       setMessage("An error occurred. Please try again.");
     }
+
     setLoading(false);
   };
 
@@ -69,7 +79,7 @@ const UserDataUpdatePage: React.FC = () => {
           <button type="submit" className="mt-4 px-6 py-3 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 cursor-pointer" disabled={loading}>
             {loading ? "Updating..." : "Update"}
           </button>
-          {message && (() => { console.log('Message label:', message); return <div className="mt-2 text-center text-sm text-blue-600">{message}</div>; })()}
+          {message && <div className="mt-2 text-center text-sm text-blue-600">{message}</div>}
         </form>
       </div>
     </main>

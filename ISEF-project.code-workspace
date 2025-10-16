@@ -1,13 +1,13 @@
 {
 	"folders": [
 		{
-			"path": "API"
-		},
-		{
-			"path": "client"
-		},
-		{
 			"path": "DOCS"
+		},
+		{
+			"path": "WebApp/API"
+		},
+		{
+			"path": "WebApp/client"
 		}
 	],
 	"settings": {}

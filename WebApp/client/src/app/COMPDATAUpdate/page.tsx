@@ -6,12 +6,14 @@ const CompDataUpdatePage: React.FC = () => {
   const [form, setForm] = useState({
     companyName: "",
     companyType: "",
-    medicalLicense: "",
+    MedicalLicense: "",
     password: "",
     phone: "",
-    adminName: "",
+    AdministratorName: "",
     companyEmail: "",
-    businessAddress: ""
+    businessAddress: "",
+
+    
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -66,8 +68,8 @@ const CompDataUpdatePage: React.FC = () => {
         <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-8 flex flex-col gap-4">
           <input name="companyName" value={form.companyName} onChange={handleChange} placeholder="Company Name" className="border rounded px-3 py-2" required />
           <input name="companyType" value={form.companyType} onChange={handleChange} placeholder="Company Type" className="border rounded px-3 py-2" required />
-          <input name="medicalLicense" value={form.medicalLicense} onChange={handleChange} placeholder="Medical License" className="border rounded px-3 py-2" required />
-          <input name="adminName" value={form.adminName} onChange={handleChange} placeholder="Administrator Name" className="border rounded px-3 py-2" required />
+          <input name="MedicalLicense" value={form.MedicalLicense} onChange={handleChange} placeholder="Medical License" className="border rounded px-3 py-2" required />
+          <input name="AdministratorName" value={form.AdministratorName} onChange={handleChange} placeholder="Administrator Name" className="border rounded px-3 py-2" required />
           <input name="companyEmail" value={form.companyEmail} onChange={handleChange} placeholder="Company Email" className="border rounded px-3 py-2" required />
           <input name="phone" value={form.phone} onChange={handleChange} placeholder="Phone" className="border rounded px-3 py-2" required />
           <input name="password" type="password" value={form.password} onChange={handleChange} placeholder="Password" className="border rounded px-3 py-2" required />

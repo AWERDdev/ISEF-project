@@ -126,7 +126,7 @@ const Signup: React.FC = () => {
               </span>
               Contact Information
             </h2>
-            <div className="grid grid-cols-1 gap-2 md:flex md:gap-2 mb-2">
+            <div className="grid grid-cols-1 gap-2  mb-2">
               <input
                 type="text"
                 placeholder="Administrator Name"
@@ -169,7 +169,7 @@ const Signup: React.FC = () => {
               </span>
               Account Security
             </h2>
-            <div className="grid grid-cols-1 gap-2 md:flex md:gap-2 mb-1">
+            <div className="grid grid-cols-1 gap-2 mb-1">
               <input
                 type="password"
                 placeholder="Password"

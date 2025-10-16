@@ -62,7 +62,7 @@ const UserSignup: React.FC = () => {
     <>
     <div className="min-h-screen bg-gradient-to-r from-white to-green-50 flex flex-col items-center">
       <NavBarNoAUTH />
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl mt-10 p-10 border border-gray-100">
+      <div className=" w-full max-w-lg bg-white rounded-2xl shadow-2xl mt-10 p-10 border border-gray-100">
         <div className="flex flex-col items-center mb-6">
           <div className="mb-2">
             <span className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full">
@@ -122,7 +122,7 @@ const UserSignup: React.FC = () => {
             </span>
             Account Security
           </h2>
-          <div className="grid grid-cols-1 gap-2 md:flex md:gap-2 mb-1">
+          <div className="grid grid-cols-1 gap-2 mb-1">
             <input
               type="password"
               placeholder="Password"
